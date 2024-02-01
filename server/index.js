@@ -6,7 +6,7 @@ const app = express();
 
 app.use(express.json());
 
-app.use("/server", authRouter);
+app.use("/server/auth", authRouter);
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
