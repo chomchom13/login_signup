@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { signInStart, signInSuccess, signInFailure } from "../redux/user/userSlice";
+import OAuth from "../components/OAuth";
 
 export default function Login() {
   const { error, loading } = useSelector((state) => state.user);
@@ -65,6 +66,7 @@ export default function Login() {
         >
           {loading ? "loading..." : "Log In"}
         </button>
+        <OAuth />
       </form>
       <div className="flex gap-2 mt-5">
         <p>Dont Have an Account?</p> {/* DONT write Don't . write Dont as there might be future problems because of using ' */}
