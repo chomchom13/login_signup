@@ -15,6 +15,10 @@ export default {
       },
       "white": {
         1: "#F6F4EB"
+      },
+      "green": {
+        1: "#ADBC9F",
+        2: "#436850"
       }
     },
     extend: {},
