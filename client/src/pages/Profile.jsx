@@ -15,6 +15,9 @@ import {
   deleteUserFailure,
   deleteUserStart,
   deleteUserSuccess,
+  logoutUserFailure,
+  logoutUserStart,
+  logoutUserSuccess,
 } from "../redux/user/userSlice";
 
 export default function Profile() {
@@ -91,7 +94,7 @@ export default function Profile() {
       const res = await fetch(`/server/user/delete/${currentUser._id}`, {
         method: "DELETE",
       });
-      const data = await res.json()
+      const data = await res.json();
       if (data.success === false) {
         dispatch(deleteUserFailure(data.message));
         return;
@@ -99,6 +102,21 @@ export default function Profile() {
       dispatch(deleteUserSuccess(data));
     } catch (error) {
       dispatch(deleteUserFailure(error.message));
+    }
+  };
+
+  const handleLogOut = async () => {
+    try {
+      dispatch(logoutUserStart());
+      const res = await fetch("/server/auth/logout");
+      const data = await res.json();
+      if (data.success === false) {
+        dispatch(logoutUserFailure(data.message));
+        return;
+      }
+      dispatch(logoutUserSuccess(data));
+    } catch (error) {
+      dispatch(logoutUserFailure(error.message));
     }
   };
   return (
@@ -163,7 +181,9 @@ export default function Profile() {
         <span onClick={handleDeleteUser} className="text-red-1 cursor-pointer">
           Delete Account
         </span>
-        <span className="text-red-1 cursor-pointer">Sign Out</span>
+        <span onClick={handleLogOut} className="text-red-1 cursor-pointer">
+          Log Out
+        </span>
       </div>
       <p className="mt-5 text-red-1">{error ? error : ""}</p>
       <p className="mt-5 text-green-2">
