@@ -1,8 +1,11 @@
+
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { signInStart, signInSuccess, signInFailure } from "../redux/user/userSlice";
 import OAuth from "../components/OAuth";
+import { ButtonGoogleAuthentication } from "@/components/ui/button-with-icon";
+
 
 export default function Login() {
   const { error, loading } = useSelector((state) => state.user);
@@ -43,6 +46,8 @@ export default function Login() {
 
   console.log(formData);
   return (
+    <>
+    
     <div className="p-3 max-w-lg mx-auto">
       <h1 className="text-3xl text-center font-semibold my-7">Log In</h1>
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
@@ -64,9 +69,10 @@ export default function Login() {
           disabled={loading}
           className="bg-grey-slate-3 p-3 rounded-lg uppercase hover:backdrop-opacity-95 disabled:opacity-80"
         >
-          {loading ? "loading..." : "Log In"}
+          {loading ? "Loading..." : "Log In"}
         </button>
-        <OAuth />
+        {/* <OAuth /> */}
+        <ButtonGoogleAuthentication />
       </form>
       <div className="flex gap-2 mt-5">
         <p>Dont Have an Account?</p> {/* DONT write Don't . write Dont as there might be future problems because of using ' */}
@@ -75,6 +81,8 @@ export default function Login() {
         </Link>
       </div>
       {error && <p className="text-red-500 mt-5">{error}</p>}
+      
     </div>
+    </>
   );
 }

@@ -19,6 +19,7 @@ import {
   logoutUserStart,
   logoutUserSuccess,
 } from "../redux/user/userSlice";
+import { Progress } from "@/components/ui/progress";
 
 export default function Profile() {
   const { currentUser, loading, error } = useSelector((state) => state.user);
@@ -32,11 +33,38 @@ export default function Profile() {
 
   const dispatch = useDispatch();
 
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const [showUpdateSuccessMessage, setShowUpdateSuccessMessage] = useState(false);
+
+  useEffect(() => {
+    if(filePerc === 100){
+      setShowSuccessMessage(true);
+      const timeout = setTimeout(() => {
+        setShowSuccessMessage(false)
+      },5000)
+
+      return () => clearTimeout(timeout)
+    }
+  }, [filePerc])
+
+  useEffect(() => {
+    if(updateSuccess === true){
+      setShowUpdateSuccessMessage(true);
+      const timeout = setTimeout(() => {
+        setShowUpdateSuccessMessage(false)
+        setUpdateSuccess(false)
+      },5000)
+
+      return () => clearTimeout(timeout)
+    }
+  }, [updateSuccess])
+
   useEffect(() => {
     if (file) {
       handleUpload(file);
     }
   }, [file]);
+
   const handleUpload = (file) => {
     const storage = getStorage(app);
     const fileName = new Date().getTime() + file.name;
@@ -136,17 +164,23 @@ export default function Profile() {
           alt="profile"
           className="rounded-full h-24 w-24 object-cover cursor-pointer self-center mt-2"
         />
-        <p className="text-sm self-center">
+        {/* <p className="text-sm self-center">
           {fileUploadError ? (
             <span className="text-red-1">Error Image Upload</span>
-          ) : filePerc > 0 && filePerc < 100 ? (
-            <span className="text-green-1">{`Uploading ${filePerc}%`}</span>
-          ) : filePerc === 100 ? (
-            <span className="text-green-2">Image Successfully Uploaded!</span>
-          ) : (
-            ""
-          )}
-        </p>
+            ) : filePerc > 0 && filePerc < 100 ? (
+              <span className="text-green-1">{`Uploading ${filePerc}%`}</span>
+              ) : filePerc === 100 ? (
+                <span className="text-green-2">Image Successfully Uploaded!</span>
+                ) : (
+                  ""
+                  )}
+                </p> */}
+        {filePerc > 0 && filePerc < 100 && (
+          <Progress value={filePerc} className="w-32 self-center" />
+        )}
+        {showSuccessMessage && (
+          <p className="self-center">Image Successfully Uploaded!</p>
+        )}
         <input
           type="text"
           placeholder="name"
@@ -187,7 +221,9 @@ export default function Profile() {
       </div>
       <p className="mt-5 text-red-1">{error ? error : ""}</p>
       <p className="mt-5 text-green-2">
-        {updateSuccess ? "User is Updated Successfully!" : ""}
+      {showUpdateSuccessMessage && (
+          <p className="self-center">Image Successfully Uploaded!</p>
+        )}
       </p>
     </div>
   );

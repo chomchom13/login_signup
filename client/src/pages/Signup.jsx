@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { signInStart, signInSuccess, signInFailure } from "../redux/user/userSlice";
 import OAuth from "../components/OAuth";
+import { ButtonGoogleAuthentication } from "@/components/ui/button-with-icon";
 
 export default function Signup() {
   const { error, loading } = useSelector((state) => state.user);
@@ -71,9 +72,10 @@ export default function Signup() {
           disabled={loading}
           className="bg-grey-slate-3 p-3 rounded-lg uppercase hover:backdrop-opacity-95 disabled:opacity-80"
         >
-          {loading ? "loading..." : "Sign Up"}
+          {loading ? "Loading..." : "Sign Up"}
         </button>
-        <OAuth />
+        {/* <OAuth /> */}
+        <ButtonGoogleAuthentication />
       </form>
       <div className="flex gap-2 mt-5">
         <p>Have an Account?</p>

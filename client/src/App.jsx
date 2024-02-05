@@ -5,9 +5,11 @@ import Profile from "./pages/Profile";
 import Home from "./pages/Home";
 import Header from "./components/Header";
 import PrivateRoute from "./components/PrivateRoute";
+import { ThemeProvider } from "@/components/ThemeProvider"
 
 export default function App() {
   return (
+    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
     <BrowserRouter>
       <Header />
       <Routes>
@@ -19,5 +21,6 @@ export default function App() {
         </Route>
       </Routes>
     </BrowserRouter>
+    </ThemeProvider>
   );
 }
